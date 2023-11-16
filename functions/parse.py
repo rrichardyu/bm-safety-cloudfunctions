@@ -1,4 +1,5 @@
 from datetime import datetime
+from geo import get_lat_long
 
 def parse_request(subject_line, body_text):
     if subject_line.find("Community Advisory") != -1:
@@ -39,9 +40,18 @@ def parse_request(subject_line, body_text):
     print(crime)
     print(detail)
 
-    return {
+    # Create dictionary to be uploaded to Firebase
+    firebase_obj = {
         "date_time": date_time_obj,
         "location": location,
         "crime": crime,
         "detail": detail
     }
+
+    # Use geo.py Google Geocoding API to get latitude and longitude, if it exists
+    lat_long = get_lat_long(f"{location} Berkeley CA")
+    if lat_long:    # if lat_long is not None
+        firebase_obj["latitude"] = lat_long["lat"]
+        firebase_obj["longitude"] = lat_long["lng"]
+    
+    return firebase_obj

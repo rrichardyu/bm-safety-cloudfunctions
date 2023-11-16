@@ -33,6 +33,7 @@ def get_lat_long(address):
         return None
     else:
         result = response.json()
+        print(result)
         if result["status"] == "ZERO_RESULTS":
             return None
         return result["results"][0]["geometry"]["location"]
