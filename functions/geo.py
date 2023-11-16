@@ -19,7 +19,7 @@ def get_request_endpoint(address):
 
 def get_lat_long(address):
     """
-    Returns a dictionary of latitude and longitude for a given address.
+    Returns a dictionary of latitude and longitude for a given address. Returns None if no results are found.
 
     Sample output:
         {
