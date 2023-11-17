@@ -3,10 +3,6 @@ geo.py
 This file contains functions for geocoding addresses.
 
 """
-
-import dotenv
-dotenv.load_dotenv()
-
 import os
 import requests
 
