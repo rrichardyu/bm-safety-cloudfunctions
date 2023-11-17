@@ -9,6 +9,7 @@ def parse_request(subject_line, body_text):
         print("WarnMe detected, issue time-sensitive push notification")
         return
 
+    body_text = body_text[body_text.find("Please"):]
     body_text = body_text.replace("\r\n\r\n", " ")
     body_text = body_text.replace("\r\n", " ")
     body_text = body_text.replace("\n", " ")
