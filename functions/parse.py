@@ -11,6 +11,7 @@ def parse_request(subject_line, body_text):
 
     body_text = body_text.replace("\r\n\r\n", " ")
     body_text = body_text.replace("\r\n", " ")
+    body_text = body_text.replace("\n", " ")
 
     start_ind = body_text.find("On")
 
@@ -18,22 +19,24 @@ def parse_request(subject_line, body_text):
     date_time_obj = datetime.strptime(date_time, "%m-%d-%Y %H:%M:%S")
 
     location_ind = body_text.find(" at ")
-    location = body_text[location_ind + 4:body_text.find(".", location_ind)]
+    location = body_text[location_ind + 4:body_text.find(".", location_ind)].strip()
 
     crime_start_ind_1 = body_text.find(" a ")
     crime_start_ind_2 = body_text.find(" an ")
     crime_end_ind = body_text.find(" occurred ")
 
     if (crime_start_ind_1 < location_ind):
-        crime = body_text[crime_start_ind_1 + 3:crime_end_ind]
+        crime = body_text[crime_start_ind_1 + 3:crime_end_ind].strip()
     elif (crime_start_ind_2 < location_ind):
-        crime = body_text[crime_start_ind_2 + 4:crime_end_ind]
+        crime = body_text[crime_start_ind_2 + 4:crime_end_ind].strip()
     else:
         crime = None
 
     detail_start_ind = body_text.find(".", location_ind)
-    detail_end_ind = body_text.find(" *", detail_start_ind)
-    detail = body_text[detail_start_ind + 2:detail_end_ind]
+    detail_end_ind_1 = body_text.find("If you have", detail_start_ind)
+    detail_end_ind_2 = body_text.find("*", detail_start_ind)
+    detail_end_ind = min(detail_end_ind_1, detail_end_ind_2)
+    detail = body_text[detail_start_ind + 2:detail_end_ind].strip()
 
     print(date_time_obj)
     print(location)
